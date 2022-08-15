@@ -7,7 +7,6 @@ import 'package:perso/services/auth.dart';
 import 'package:perso/services/database.dart';
 import 'package:perso/widgets/widgets.dart';
 import 'package:perso/views/chat_screen.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 
 class SignIn extends StatefulWidget {
