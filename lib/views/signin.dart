@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:perso/helper/helperfunction.dart';
 import 'package:perso/services/auth.dart';
 import 'package:perso/services/database.dart';
 import 'package:perso/widgets/widgets.dart';
 import 'package:perso/views/chat_screen.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 
 class SignIn extends StatefulWidget {
@@ -193,4 +196,16 @@ class _SignInState extends State<SignIn> {
           ),
         ));
   }
+}
+Future<UserCredential> signInWithGoogle() async {
+  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+  final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+  final credential = GoogleAuthProvider.credential(
+    accessToken: googleAuth?.accessToken,
+    idToken: googleAuth?.idToken,
+  );
+
+  return await FirebaseAuth.instance.signInWithCredential(credential);
 }

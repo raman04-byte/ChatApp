@@ -5,18 +5,7 @@ class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future signInWithEmailAndPassword(String email, String password) async {
-    // try {
-    //   UserCredential result = await _auth.signInWithEmailAndPassword(
-    //       email: email, password: password);
-    //   User? firebaseUser = result.user;
-    //   return _userFromFirebaseUser(firebaseUser!);
-    // } catch (e) {
-    //   if (kDebugMode) {
-    //     print(e.toString());
-    //   }
-    // }
-    try {
-    } on FirebaseAuthException catch (e) {
+    try {} on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         if (kDebugMode) {
           print('No user found for that email.');
@@ -30,18 +19,7 @@ class AuthMethods {
   }
 
   Future signUpWithEmailAndPassword(String email, String password) async {
-    // try {
-    //   UserCredential result = await _auth.createUserWithEmailAndPassword(
-    //       email: email, password: password);
-    //   User? firebaseUser = result.user;
-    //   return _userFromFirebaseUser(firebaseUser!);
-    // } catch (e) {
-    //   if (kDebugMode) {
-    //     print(e.toString());
-    //   }
-    // }
-    try {
-    } on FirebaseAuthException catch (e) {
+    try {} on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         if (kDebugMode) {
           print('The password provided is too weak.');
