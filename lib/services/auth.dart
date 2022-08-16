@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -36,6 +35,7 @@ class AuthMethods {
     }
   }
 
+  
   Future resetPass(String email) async {
     try {
       return await _auth.sendPasswordResetEmail(email: email);

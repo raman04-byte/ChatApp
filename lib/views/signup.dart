@@ -181,7 +181,7 @@ class _MySignUpState extends State<MySignUp> {
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(30)),
-                        child: const Text("Sign in with google",
+                        child: const Text("Register with google",
                             style:
                                 TextStyle(color: Colors.black87, fontSize: 17)),
                       ),

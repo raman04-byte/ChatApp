@@ -20,6 +20,7 @@ dependencies:
   auth: ^8.1.0
   shared_preferences: ^2.0.15
   google_sign_in: ^5.4.1
+  fluttertoast: ^8.0.9
 
 dev_dependencies:
   flutter_test:

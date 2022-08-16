@@ -1,13 +1,12 @@
+import 'package:auth/auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:perso/helper/helperfunction.dart';
 import 'package:perso/services/auth.dart';
 import 'package:perso/services/database.dart';
 import 'package:perso/widgets/widgets.dart';
 import 'package:perso/views/chat_screen.dart';
-
 
 class SignIn extends StatefulWidget {
   final Function toggle;
@@ -19,7 +18,24 @@ class SignIn extends StatefulWidget {
   _SignInState createState() => _SignInState();
 }
 
+final GoogleSignIn _googleSignIn = GoogleSignIn(
+  scopes: ['email'],
+);
+
 class _SignInState extends State<SignIn> {
+  GoogleSignInAccount? _currentUser;
+
+  @override
+  void initState() {
+    _googleSignIn.onCurrentUserChanged.listen((account) {
+      setState(() {
+        _currentUser = account;
+      });
+    });
+    _googleSignIn.signInSilently();
+    super.initState();
+  }
+
   final formKey = GlobalKey<FormState>();
   AuthMethods authMethods = AuthMethods();
   DatabaseMethods databaseMethods = DatabaseMethods();
@@ -150,15 +166,11 @@ class _SignInState extends State<SignIn> {
                 const SizedBox(
                   height: 16,
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width,
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30)),
-                  child: const Text("Sign in with google",
-                      style: TextStyle(color: Colors.black87, fontSize: 17)),
+                GestureDetector(
+                  onTap: () {
+                    signInn();
+                  },
+                  child: _buildWidget(),
                 ),
                 const SizedBox(
                   height: 16,
@@ -195,16 +207,28 @@ class _SignInState extends State<SignIn> {
           ),
         ));
   }
-}
-Future<UserCredential> signInWithGoogle() async {
-  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-  final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+  Widget _buildWidget() {
+    GoogleSignInAccount? user = _currentUser;
+    return Container(
+      alignment: Alignment.center,
+      width: MediaQuery.of(context).size.width,
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(30)),
+      child: const Text("Sign in with google",
+          style: TextStyle(color: Colors.black87, fontSize: 17)),
+    );
+  }
 
-  final credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth?.accessToken,
-    idToken: googleAuth?.idToken,
-  );
-
-  return await FirebaseAuth.instance.signInWithCredential(credential);
+  Future<void> signInn() async {
+    try {
+      await _googleSignIn.signIn();
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const ChatRoom()));
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error signing in with google $e");
+      }
+    }
+  }
 }
