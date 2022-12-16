@@ -9,10 +9,10 @@ Future<void> main() async {
   await Firebase.initializeApp(
     // Replace with actual values
     options: const FirebaseOptions(
-      apiKey: "AIzaSyB00yd14-veFvYpF1Uyc8H28EXfKswCfu4",
-      appId: "1:253518728464:android:4d220a39d28e9bc7ca6995",
-      messagingSenderId: "253518728464",
-      projectId: "personal-3e7ae",
+      apiKey: "XXXX",
+      appId: "XXXX",
+      messagingSenderId: "XXXX",
+      projectId: "XXXX",
     ),
   );
   runApp(const MyApp());
